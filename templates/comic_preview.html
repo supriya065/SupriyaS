@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft AI - Your Comic</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="hero">
+            <h1>✨ Your Comic is Ready!</h1>
+            <p>Created with ComicCraft AI</p>
+        </header>
+
+        <main>
+
+            {% if layout %}
+
+                {% for panel in layout %}
+
+                <section class="comic-panel">
+
+                    <!-- Panel Number -->
+                    <div class="panel-number">
+                        Panel {{ panel.panel }}
+                    </div>
+
+                    <!-- Panel Title -->
+                    <h2>{{ panel.title }}</h2>
+
+                    <!-- Panel Image -->
+                    {% if panel.image_path %}
+                        <div class="panel-image">
+                            <img
+                                src="/{{ panel.image_path }}"
+                                alt="Comic panel {{ panel.panel }}"
+                            >
+                        </div>
+                    {% endif %}
+
+                    <!-- Scene Description -->
+                    {% if panel.scene_description %}
+                        <div class="scene-description">
+                            {{ panel.scene_description }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Story -->
+                    {% if panel.text %}
+                        <div class="story-text">
+                            {{ panel.text | replace('\n', '<br>') | safe }}
+                        </div>
+                    {% endif %}
+
+                </section>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+                    <h2>No comic panels were created.</h2>
+                    <p>Please try generating the comic again.</p>
+                </div>
+
+            {% endif %}
+
+        </main>
+
+        <!-- ACTION BUTTONS -->
+        <div class="actions">
+
+            {% if pdf_path %}
+                <a href="{{ pdf_path }}" class="button" target="_blank">
+                    📥 Download Comic PDF
+                </a>
+            {% endif %}
+
+            <a href="/" class="button">
+                ← Create Another Comic
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
